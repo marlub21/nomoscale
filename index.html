@@ -127,7 +127,7 @@ nav.scrolled{background:rgba(8,8,8,0.94);backdrop-filter:blur(20px);border-botto
 }
 .h1-accent{color:var(--o)}
 .hero-sub{
-  font-size:16px;color:var(--cream2);font-weight:300;line-height:1.75;
+  font-size:16px;color:#ffffff;font-weight:300;line-height:1.75;
   max-width:100%;margin-bottom:32px;
   animation:fadeUp 0.6s 0.14s ease both;
 }
@@ -405,18 +405,120 @@ nav.scrolled{background:rgba(8,8,8,0.94);backdrop-filter:blur(20px);border-botto
 .pain-card-mobile:nth-child(2) .pain-card-mobile-quote{border-left:2px solid var(--blue)}
 .pain-card-mobile:nth-child(3) .pain-card-mobile-quote{border-left:2px solid var(--purple)}
 
-/* ════ SOLUTION ════ */
-.solution-section{background:var(--bg2);padding:52px 60px}
-.solution-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;margin-top:36px}
-.steps{display:flex;flex-direction:column}
-.step-row{display:flex;gap:18px;padding:20px 0;border-bottom:1px solid var(--border)}
-.step-row:last-child{border-bottom:none}
-.step-num{width:36px;height:36px;flex-shrink:0;border-radius:10px;background:var(--bg3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;color:var(--muted);transition:all 0.3s;margin-top:2px}
-.step-row:hover .step-num{background:var(--o);color:#080808;border-color:var(--o)}
-.step-row h4{font-family:'Plus Jakarta Sans',sans-serif;font-size:15px;font-weight:700;margin-bottom:4px;transition:color 0.2s}
-.step-row:hover h4{color:var(--o)}
-.step-row p{font-size:13px;color:var(--cream2);line-height:1.65}
-.demo-panel{background:var(--bg);border:1px solid var(--border2);border-radius:20px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5)}
+/* ════ SOLUTION – redesign ════ */
+.solution-section{
+  position:relative;
+  padding:72px 60px;
+  overflow:hidden;
+  background:var(--bg2);
+}
+.solution-bg{
+  position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(ellipse 60% 50% at 80% 50%, rgba(241,127,63,0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 10% 80%, rgba(96,165,250,0.05) 0%, transparent 60%),
+    radial-gradient(ellipse 30% 40% at 50% 10%, rgba(167,139,250,0.04) 0%, transparent 60%);
+}
+.solution-section .s-eyebrow,.solution-section .s-title,.solution-section .s-sub{position:relative;z-index:2}
+.solution-steps{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+  margin-top:48px;
+  position:relative;z-index:2;
+}
+/* Connecting line between steps */
+.solution-steps::before{
+  content:'';
+  position:absolute;
+  top:36px;left:calc(12.5% + 14px);right:calc(12.5% + 14px);
+  height:1px;
+  background:linear-gradient(90deg,rgba(241,127,63,0.4),rgba(96,165,250,0.4),rgba(167,139,250,0.4),rgba(74,222,128,0.4));
+  z-index:0;
+}
+.sol-card{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:28px 24px;
+  position:relative;
+  transition:all 0.4s;
+  overflow:hidden;
+  z-index:1;
+}
+.sol-card::before{
+  content:'';position:absolute;inset:0;
+  opacity:0;transition:opacity 0.4s;
+  border-radius:20px;
+}
+.sol-card:nth-child(1)::before{background:linear-gradient(135deg,rgba(241,127,63,0.08),transparent)}
+.sol-card:nth-child(2)::before{background:linear-gradient(135deg,rgba(96,165,250,0.08),transparent)}
+.sol-card:nth-child(3)::before{background:linear-gradient(135deg,rgba(167,139,250,0.08),transparent)}
+.sol-card:nth-child(4)::before{background:linear-gradient(135deg,rgba(74,222,128,0.08),transparent)}
+.sol-card:hover{transform:translateY(-6px);box-shadow:0 24px 60px rgba(0,0,0,0.4)}
+.sol-card:hover::before{opacity:1}
+.sol-card:nth-child(1):hover{border-color:rgba(241,127,63,0.35)}
+.sol-card:nth-child(2):hover{border-color:rgba(96,165,250,0.35)}
+.sol-card:nth-child(3):hover{border-color:rgba(167,139,250,0.35)}
+.sol-card:nth-child(4):hover{border-color:rgba(74,222,128,0.35)}
+.sol-num{
+  width:52px;height:52px;border-radius:16px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;
+  margin-bottom:20px;position:relative;z-index:1;
+  transition:transform 0.3s;
+}
+.sol-card:nth-child(1) .sol-num{background:rgba(241,127,63,0.15);border:1px solid rgba(241,127,63,0.3);color:var(--o)}
+.sol-card:nth-child(2) .sol-num{background:rgba(96,165,250,0.15);border:1px solid rgba(96,165,250,0.3);color:var(--blue)}
+.sol-card:nth-child(3) .sol-num{background:rgba(167,139,250,0.15);border:1px solid rgba(167,139,250,0.3);color:var(--purple)}
+.sol-card:nth-child(4) .sol-num{background:rgba(74,222,128,0.15);border:1px solid rgba(74,222,128,0.3);color:var(--green)}
+.sol-card:hover .sol-num{transform:scale(1.1)}
+.sol-card h4{
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;
+  margin-bottom:10px;letter-spacing:-0.3px;position:relative;z-index:1;
+  transition:color 0.3s;
+}
+.sol-card:nth-child(1):hover h4{color:var(--o)}
+.sol-card:nth-child(2):hover h4{color:var(--blue)}
+.sol-card:nth-child(3):hover h4{color:var(--purple)}
+.sol-card:nth-child(4):hover h4{color:var(--green)}
+.sol-card p{font-size:13px;color:var(--cream2);line-height:1.7;position:relative;z-index:1}
+.sol-tag{
+  display:inline-flex;align-items:center;gap:5px;
+  margin-top:16px;font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;
+  padding:4px 12px;border-radius:100px;position:relative;z-index:1;
+}
+.sol-card:nth-child(1) .sol-tag{color:var(--o);background:rgba(241,127,63,0.1);border:1px solid rgba(241,127,63,0.2)}
+.sol-card:nth-child(2) .sol-tag{color:var(--blue);background:rgba(96,165,250,0.1);border:1px solid rgba(96,165,250,0.2)}
+.sol-card:nth-child(3) .sol-tag{color:var(--purple);background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.2)}
+.sol-card:nth-child(4) .sol-tag{color:var(--green);background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.2)}
+
+/* Demo panel below */
+.sol-demo-wrap{
+  margin-top:48px;
+  position:relative;z-index:2;
+  display:grid;grid-template-columns:1fr 1.2fr;gap:32px;align-items:center;
+}
+.sol-demo-text h3{
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:800;
+  letter-spacing:-0.5px;margin-bottom:12px;
+}
+.sol-demo-text p{font-size:15px;color:var(--cream2);line-height:1.75;margin-bottom:24px}
+.sol-highlight{
+  display:flex;gap:20px;
+}
+.sol-hl-item{
+  display:flex;align-items:center;gap:8px;
+  font-size:13px;color:var(--cream2);
+}
+.sol-hl-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+@keyframes floatPanel{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.demo-panel{
+  background:var(--bg);border:1px solid var(--border2);border-radius:20px;
+  overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.5);
+  animation:floatPanel 6s ease-in-out infinite;
+}
 .demo-bar{background:var(--bg3);padding:12px 18px;display:flex;align-items:center;gap:7px;border-bottom:1px solid var(--border)}
 .d-dot{width:10px;height:10px;border-radius:50%}
 .d-dot:nth-child(1){background:#ff5f57}.d-dot:nth-child(2){background:#febc2e}.d-dot:nth-child(3){background:#28c840}
@@ -581,7 +683,10 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:32px 60px
   .cta-section{padding:48px 20px}
   footer{padding:24px 20px;flex-direction:column;text-align:center}
   .footer-links{justify-content:center}
-  .solution-grid{grid-template-columns:1fr;gap:28px}
+  .solution-section{padding:48px 20px}
+  .solution-steps{grid-template-columns:1fr 1fr;gap:12px}
+  .solution-steps::before{display:none}
+  .sol-demo-wrap{grid-template-columns:1fr;gap:24px}
   .char-card{flex:0 0 82vw}
   .feat-grid{grid-template-columns:1fr 1fr}
   .testi-grid{grid-template-columns:1fr}
@@ -652,7 +757,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:32px 60px
     <h1>Marketing das<br><span class="h1-accent">endlich für dich arbeitet</span></h1>
     <p class="hero-sub">Kein Chaos mehr. Dein persönlicher Marketing-Assistent analysiert deine Kampagnen, zeigt dir täglich den einen Move mit dem größten Impact – und ist genauso tief im Thema wie du.</p>
     <div class="hero-actions">
-      <a href="#waitlist" class="btn-primary">Kostenlos starten →</a>
+      <a href="#waitlist" class="btn-primary">Jetzt auf die Waitlist →</a>
       <a href="#solution" class="btn-ghost">Wie es funktioniert <span class="btn-arrow">→</span></a>
     </div>
   </div>
@@ -876,32 +981,52 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:32px 60px
 
 <!-- ══ SOLUTION ══ -->
 <section class="solution-section content-section" id="solution">
+  <div class="solution-bg"></div>
   <div class="container">
     <div class="reveal">
       <p class="s-eyebrow">So läuft's</p>
       <h2 class="s-title">Wie dein Marketing wieder<br><span style="color:var(--o)">für dich arbeitet.</span></h2>
       <p class="s-sub">Einmal verbinden – ab dann übernimmt dein Assistent. Du bekommst jeden Morgen genau was du brauchst.</p>
     </div>
-    <div class="solution-grid">
-      <div class="steps">
-        <div class="step-row reveal">
-          <div class="step-num">1</div>
-          <div><h4>Account verbinden</h4><p>Einmal einrichten. Dein Assistent liest deine Kampagnen, Funnels und historische Daten – und lernt wie dein Business tickt.</p></div>
-        </div>
-        <div class="step-row reveal rd1">
-          <div class="step-num">2</div>
-          <div><h4>Deinen Assistenten wählen</h4><p>Ana, Tom, Sara oder Romeo – wähle die Persönlichkeit die zu dir passt. Gleiche Power, andere Energie.</p></div>
-        </div>
-        <div class="step-row reveal rd2">
-          <div class="step-num">3</div>
-          <div><h4>90 Sekunden – du weißt was zu tun ist</h4><p>Was läuft, was brennt, ein konkreter Move mit €-Impact. Beim ersten Kaffee – entspannt, klar, sofort umsetzbar.</p></div>
-        </div>
-        <div class="step-row reveal rd3">
-          <div class="step-num">4</div>
-          <div><h4>Optional: Dein Assistent handelt selbst</h4><p>Du gibst grünes Licht – er setzt um. Budget-Shifts, Funnel-Fixes, A/B Tests. Du behältst 100% Kontrolle.</p></div>
+
+    <div class="solution-steps">
+      <div class="sol-card reveal">
+        <div class="sol-num">1</div>
+        <h4>Account verbinden</h4>
+        <p>Einmal einrichten. Dein Assistent liest deine Kampagnen, Funnels und historische Daten.</p>
+        <div class="sol-tag">⚡ Setup in 2 Min</div>
+      </div>
+      <div class="sol-card reveal rd1">
+        <div class="sol-num">2</div>
+        <h4>Assistenten wählen</h4>
+        <p>Ana, Tom, Sara oder Romeo – gleiche Power, unterschiedliche Energie. Wähle wer zu dir passt.</p>
+        <div class="sol-tag">🎯 Dein Stil</div>
+      </div>
+      <div class="sol-card reveal rd2">
+        <div class="sol-num">3</div>
+        <h4>90s Briefing</h4>
+        <p>Was läuft, was brennt, ein konkreter Move mit €-Impact. Beim ersten Kaffee – klar und umsetzbar.</p>
+        <div class="sol-tag">☕ Täglich</div>
+      </div>
+      <div class="sol-card reveal rd3">
+        <div class="sol-num">4</div>
+        <h4>Assistent handelt</h4>
+        <p>Du gibst grünes Licht – er setzt um. Budget-Shifts, Funnel-Fixes, A/B Tests. 100% Kontrolle.</p>
+        <div class="sol-tag">🤖 Optional</div>
+      </div>
+    </div>
+
+    <div class="sol-demo-wrap reveal">
+      <div class="sol-demo-text">
+        <h3>Sieh wie Ana deinen<br>Morgen verändert.</h3>
+        <p>Keine 10 Tabs mehr. Kein manuelles Suchen. Ana scannt dein gesamtes Konto und serviert dir in 90 Sekunden genau einen Move – den mit dem größten Impact.</p>
+        <div class="sol-highlight">
+          <div class="sol-hl-item"><div class="sol-hl-dot" style="background:var(--o)"></div>Täglich automatisch</div>
+          <div class="sol-hl-item"><div class="sol-hl-dot" style="background:var(--green)"></div>€-Impact sichtbar</div>
+          <div class="sol-hl-item"><div class="sol-hl-dot" style="background:var(--blue)"></div>Sofort umsetzbar</div>
         </div>
       </div>
-      <div class="demo-panel reveal">
+      <div class="demo-panel">
         <div class="demo-bar">
           <div class="d-dot"></div><div class="d-dot"></div><div class="d-dot"></div>
           <span class="demo-title-bar">Ana · Morning Briefing · 07:04</span>
@@ -1088,7 +1213,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:32px 60px
     <div class="cta-inner reveal">
       <p class="s-eyebrow">Früher Zugang</p>
       <h2 class="s-title">Weniger Chaos.<br><span style="color:var(--o)">Mehr Ergebnisse.</span></h2>
-      <p class="cta-sub">Starte kostenlos in der Beta. Verbinde deinen Account und sieh in 90 Sekunden was heute zählt – kein Onboarding-Chaos.</p>
+      <p class="cta-sub">Sichere dir deinen Platz – wir informieren dich sobald es losgeht.</p>
       <form class="waitlist-form" netlify name="waitlist" method="POST" onsubmit="handleSubmit(event)">
         <input type="hidden" name="form-name" value="waitlist">
         <div class="form-row">
