@@ -32,8 +32,13 @@ body{background:var(--bg);color:var(--cream);font-family:'DM Sans',sans-serif;ov
 @media(min-width:901px){
   .cursor{position:fixed;width:8px;height:8px;background:var(--o);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%)}
   .cursor-ring{position:fixed;width:32px;height:32px;border:1px solid rgba(241,127,63,0.4);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:all 0.14s ease}
+  *{cursor:none!important}
 }
-@media(max-width:900px){.cursor,.cursor-ring{display:none}body{cursor:auto}}
+@media(max-width:900px){
+  .cursor,.cursor-ring{display:none}
+  body{cursor:auto}
+  html{scroll-behavior:smooth;-webkit-overflow-scrolling:touch}
+}
 
 /* NAV */
 nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:22px 60px;display:flex;align-items:center;justify-content:space-between;transition:all 0.3s}
@@ -74,6 +79,28 @@ nav.scrolled{background:rgba(8,8,8,0.94);backdrop-filter:blur(20px);border-botto
 }
 .hero-bg-glow{position:absolute;top:-10%;right:0;width:700px;height:700px;background:radial-gradient(circle,rgba(241,127,63,0.07) 0%,transparent 65%);pointer-events:none}
 .grid-lines{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,0.055) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.055) 1px,transparent 1px);background-size:80px 80px}
+
+/* Grid beam animations */
+.grid-beams{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:1}
+.beam{position:absolute;border-radius:100px}
+.beam-h{height:1px;width:80px;background:linear-gradient(90deg,transparent,rgba(241,127,63,0.9),transparent);box-shadow:0 0 8px rgba(241,127,63,0.6)}
+.beam-v{width:1px;height:80px;background:linear-gradient(180deg,transparent,rgba(241,127,63,0.9),transparent);box-shadow:0 0 8px rgba(241,127,63,0.6)}
+
+@keyframes beam-right{from{transform:translateX(-100px)}to{transform:translateX(calc(100vw + 100px))}}
+@keyframes beam-left{from{transform:translateX(calc(100vw + 100px))}to{transform:translateX(-100px)}}
+@keyframes beam-down{from{transform:translateY(-100px)}to{transform:translateY(calc(100vh + 100px))}}
+@keyframes beam-up{from{transform:translateY(calc(100vh + 100px))}to{transform:translateY(-100px)}}
+
+.b1{top:80px;left:0;animation:beam-right 4s linear 0s infinite}
+.b2{top:240px;left:0;animation:beam-right 5s linear 1.5s infinite}
+.b3{top:400px;left:0;animation:beam-right 3.5s linear 3s infinite}
+.b4{top:160px;left:0;animation:beam-left 4.5s linear 0.8s infinite}
+.b5{top:320px;left:0;animation:beam-left 3.8s linear 2.2s infinite}
+.b6{left:80px;top:0;animation:beam-down 4s linear 0.5s infinite}
+.b7{left:240px;top:0;animation:beam-down 5.5s linear 2s infinite}
+.b8{left:400px;top:0;animation:beam-down 3.5s linear 1s infinite}
+.b9{left:160px;top:0;animation:beam-up 4.2s linear 3.5s infinite}
+.b10{left:320px;top:0;animation:beam-up 3.8s linear 0.2s infinite}
 
 /* Hero Left */
 .hero-left{
@@ -606,6 +633,18 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:32px 60px
 <section class="hero">
   <div class="hero-bg-glow"></div>
   <div class="grid-lines"></div>
+  <div class="grid-beams">
+    <div class="beam beam-h b1"></div>
+    <div class="beam beam-h b2"></div>
+    <div class="beam beam-h b3"></div>
+    <div class="beam beam-h b4"></div>
+    <div class="beam beam-h b5"></div>
+    <div class="beam beam-v b6"></div>
+    <div class="beam beam-v b7"></div>
+    <div class="beam beam-v b8"></div>
+    <div class="beam beam-v b9"></div>
+    <div class="beam beam-v b10"></div>
+  </div>
 
   <!-- Left: Headline + CTA -->
   <div class="hero-left">
@@ -1075,7 +1114,6 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:32px 60px
 </footer>
 
 <script>
-// CURSOR
 const cur = document.getElementById('cursor');
 const ring = document.getElementById('cursorRing');
 if(cur && ring){
