@@ -59,17 +59,18 @@ nav.scrolled{background:rgba(8,8,8,0.94);backdrop-filter:blur(20px);border-botto
   min-height:100vh;
   display:grid;
   grid-template-columns:1fr 1fr;
-  grid-template-rows:1fr auto;
+  grid-template-rows:1fr;
   position:relative;
   overflow:hidden;
 }
 .hero-bg-glow{position:absolute;top:-10%;right:0;width:700px;height:700px;background:radial-gradient(circle,rgba(241,127,63,0.07) 0%,transparent 65%);pointer-events:none}
 .grid-lines{position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,0.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.018) 1px,transparent 1px);background-size:80px 80px}
 
+/* Hero Left */
 .hero-left{
   grid-column:1;grid-row:1;
   display:flex;flex-direction:column;justify-content:center;
-  padding:120px 48px 60px 60px;
+  padding:120px 48px 80px 60px;
   position:relative;z-index:2;
 }
 .hero-badge{
@@ -109,17 +110,47 @@ nav.scrolled{background:rgba(8,8,8,0.94);backdrop-filter:blur(20px);border-botto
 .hero-right{
   grid-column:2;grid-row:1;
   position:relative;
-  display:flex;align-items:flex-end;justify-content:center;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:flex-end;
   overflow:hidden;
+  padding-bottom:40px;
 }
 .char-slide{
-  position:absolute;inset:0;
+  position:absolute;
+  top:0;left:0;right:0;
+  bottom:60px; /* leave room for dots */
   display:flex;flex-direction:column;
   align-items:center;justify-content:flex-end;
   opacity:0;transition:opacity 0.8s ease;
   pointer-events:none;
 }
 .char-slide.active{opacity:1;pointer-events:auto}
+
+/* Placeholder for character image */
+.char-slide-placeholder{
+  width:clamp(200px,22vw,320px);
+  height:clamp(300px,50vh,520px);
+  background:linear-gradient(180deg,var(--bg3) 0%, var(--bg4) 100%);
+  border:1px solid var(--border2);
+  border-radius:24px 24px 0 0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:12px;
+  position:relative;z-index:2;
+  margin-bottom:0;
+}
+.char-slide-placeholder-icon{
+  width:64px;height:64px;
+  border-radius:50%;
+  background:var(--o2);
+  border:2px dashed rgba(241,127,63,0.3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;
+  color:rgba(241,127,63,0.4);
+}
+.char-slide-placeholder-label{
+  font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--muted);font-weight:600;
+}
 .char-slide-img{
   height:clamp(420px,62vh,680px);
   width:auto;object-fit:contain;
@@ -128,21 +159,24 @@ nav.scrolled{background:rgba(8,8,8,0.94);backdrop-filter:blur(20px);border-botto
   display:block;
 }
 .char-slide-glow{
-  position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+  position:absolute;bottom:60px;left:50%;transform:translateX(-50%);
   width:360px;height:200px;
   background:radial-gradient(ellipse,rgba(241,127,63,0.16) 0%,transparent 70%);
 }
 .char-slide-info{
-  position:absolute;
-  bottom:32px;left:50%;transform:translateX(-50%);
-  display:flex;flex-direction:column;align-items:center;gap:8px;
-  z-index:5;width:100%;padding:0 24px;
+  position:relative;
+  z-index:5;
+  display:flex;flex-direction:column;align-items:center;gap:6px;
+  padding:0 24px;
+  width:100%;
+  text-align:center;
+  margin-top:14px;
 }
 .char-slide-name{
-  font-family:'Plus Jakarta Sans',sans-serif;font-size:26px;font-weight:800;
-  letter-spacing:-0.5px;color:var(--cream);text-align:center;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:24px;font-weight:800;
+  letter-spacing:-0.5px;color:var(--cream);
 }
-.char-slide-quote{font-size:13px;color:var(--cream2);text-align:center;font-style:italic;max-width:240px;line-height:1.5}
+.char-slide-quote{font-size:13px;color:var(--cream2);font-style:italic;max-width:240px;line-height:1.5}
 .char-slide-traits{display:flex;gap:7px;flex-wrap:wrap;justify-content:center}
 .trait-badge{
   background:rgba(8,8,8,0.8);border:1px solid rgba(241,127,63,0.3);
@@ -150,8 +184,13 @@ nav.scrolled{background:rgba(8,8,8,0.94);backdrop-filter:blur(20px);border-botto
   border-radius:100px;padding:5px 14px;
   font-size:12px;font-weight:600;color:var(--o);
 }
+
+/* Dots UNDER characters – centered at bottom of hero-right */
 .char-dots{
-  position:absolute;bottom:16px;right:24px;
+  position:absolute;
+  bottom:16px;
+  left:50%;
+  transform:translateX(-50%);
   display:flex;gap:6px;z-index:10;
 }
 .char-dot{
@@ -159,107 +198,158 @@ nav.scrolled{background:rgba(8,8,8,0.94);backdrop-filter:blur(20px);border-botto
   background:rgba(255,255,255,0.2);
   cursor:none;transition:all 0.3s;border:none;padding:0;
 }
-.char-dot.active{background:var(--o);box-shadow:0 0 8px var(--og)}
+.char-dot.active{background:var(--o);box-shadow:0 0 8px var(--og);width:18px;border-radius:100px;}
 
-/* ════ STATS BAR – premium ════ */
-.stats-bar{
-  grid-column:1/-1;grid-row:2;
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  position:relative;z-index:2;
-  border-top:1px solid var(--border);
-  overflow:hidden;
-}
-.stats-bar::before{
-  content:'';position:absolute;inset:0;
-  background:linear-gradient(135deg,rgba(241,127,63,0.04) 0%,transparent 50%,rgba(96,165,250,0.03) 100%);
-  pointer-events:none;
-}
-.stat-bar-item{
-  padding:32px 40px;
-  display:flex;flex-direction:column;gap:6px;
-  border-right:1px solid var(--border);
-  position:relative;overflow:hidden;
-  transition:background 0.3s;
-  background:var(--bg2);
-}
-.stat-bar-item:last-child{border-right:none}
-.stat-bar-item::after{
-  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
-  transform:scaleX(0);transform-origin:left;transition:transform 0.4s;
-}
-.stat-bar-item:nth-child(1)::after{background:var(--o)}
-.stat-bar-item:nth-child(2)::after{background:var(--green)}
-.stat-bar-item:nth-child(3)::after{background:var(--blue)}
-.stat-bar-item:nth-child(4)::after{background:var(--purple)}
-.stat-bar-item:hover::after{transform:scaleX(1)}
-.stat-bar-item:hover{background:rgba(255,255,255,0.02)}
-.stat-bar-tag{
-  font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:700;
-  margin-bottom:2px;
-}
-.stat-bar-item:nth-child(1) .stat-bar-tag{color:var(--o)}
-.stat-bar-item:nth-child(2) .stat-bar-tag{color:var(--green)}
-.stat-bar-item:nth-child(3) .stat-bar-tag{color:var(--blue)}
-.stat-bar-item:nth-child(4) .stat-bar-tag{color:var(--purple)}
-.stat-bar-num{
-  font-family:'Plus Jakarta Sans',sans-serif;
-  font-size:36px;font-weight:800;letter-spacing:-2px;line-height:1;color:var(--cream);
-}
-.stat-bar-item:nth-child(1) .stat-bar-num{color:var(--o)}
-.stat-bar-item:nth-child(2) .stat-bar-num{color:var(--green)}
-.stat-bar-item:nth-child(3) .stat-bar-num{color:var(--blue)}
-.stat-bar-item:nth-child(4) .stat-bar-num{color:var(--purple)}
-.stat-bar-label{font-size:13px;color:var(--cream2);font-weight:300}
-
-/* ════ PAIN SECTION – premium ════ */
+/* ════ PAIN SECTION – interactive ════ */
 .pain-section{background:var(--bg);padding:64px 60px}
-.pain-intro{margin-bottom:48px}
-.pain-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  gap:16px;
+.pain-intro{margin-bottom:40px}
+
+/* New interactive pain layout */
+.pain-interactive{
+  display:grid;
+  grid-template-columns:340px 1fr;
+  gap:20px;
+  align-items:start;
 }
-.pain-card{
-  background:var(--bg3);
+.pain-tabs{
+  display:flex;flex-direction:column;gap:8px;
+  position:sticky;top:90px;
+}
+.pain-tab{
+  padding:20px 22px;
+  border-radius:16px;
   border:1px solid var(--border);
-  border-radius:20px;padding:36px 32px;
-  transition:all 0.35s;position:relative;overflow:hidden;
+  background:var(--bg2);
+  cursor:pointer;
+  transition:all 0.3s;
+  display:flex;align-items:flex-start;gap:14px;
+  text-align:left;
 }
-.pain-card::before{
-  content:'';position:absolute;top:0;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(241,127,63,0.0),transparent);
-  transition:background 0.4s;
+.pain-tab.active{
+  border-color:rgba(241,127,63,0.4);
+  background:var(--bg3);
+  box-shadow:0 0 0 1px rgba(241,127,63,0.1) inset;
 }
-.pain-card:hover{border-color:rgba(241,127,63,0.2);transform:translateY(-4px);box-shadow:0 20px 60px rgba(0,0,0,0.4)}
-.pain-card:hover::before{background:linear-gradient(90deg,transparent,rgba(241,127,63,0.5),transparent)}
-.pain-card-icon{
-  width:52px;height:52px;border-radius:16px;
-  display:flex;align-items:center;justify-content:center;font-size:24px;
-  margin-bottom:20px;
+.pain-tab-icon{
+  width:40px;height:40px;border-radius:12px;
+  flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;
+  transition:all 0.3s;
 }
-.pain-card:nth-child(1) .pain-card-icon{background:rgba(241,127,63,0.1);border:1px solid rgba(241,127,63,0.2)}
-.pain-card:nth-child(2) .pain-card-icon{background:rgba(96,165,250,0.1);border:1px solid rgba(96,165,250,0.2)}
-.pain-card:nth-child(3) .pain-card-icon{background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.2)}
-.pain-card h3{
-  font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;
-  margin-bottom:12px;letter-spacing:-0.4px;
+.pain-tab:nth-child(1) .pain-tab-icon{background:rgba(241,127,63,0.1);border:1px solid rgba(241,127,63,0.2)}
+.pain-tab:nth-child(2) .pain-tab-icon{background:rgba(96,165,250,0.1);border:1px solid rgba(96,165,250,0.2)}
+.pain-tab:nth-child(3) .pain-tab-icon{background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.2)}
+.pain-tab.active:nth-child(1) .pain-tab-icon{background:rgba(241,127,63,0.2)}
+.pain-tab.active:nth-child(2) .pain-tab-icon{background:rgba(96,165,250,0.2)}
+.pain-tab.active:nth-child(3) .pain-tab-icon{background:rgba(167,139,250,0.2)}
+.pain-tab-label{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  font-size:15px;font-weight:700;margin-bottom:3px;
+  transition:color 0.2s;
 }
-.pain-card p{font-size:14px;color:var(--cream2);line-height:1.72;margin-bottom:20px}
-.pain-quote{
-  padding:14px 16px;
-  background:rgba(255,255,255,0.03);
-  border-radius:12px;
-  font-size:13px;color:var(--cream2);font-style:italic;
-  border-left:2px solid var(--o);
+.pain-tab:nth-child(1).active .pain-tab-label{color:var(--o)}
+.pain-tab:nth-child(2).active .pain-tab-label{color:var(--blue)}
+.pain-tab:nth-child(3).active .pain-tab-label{color:var(--purple)}
+.pain-tab-hint{font-size:12px;color:var(--muted);line-height:1.5}
+.pain-tab-indicator{
+  width:3px;height:0;border-radius:2px;
+  position:absolute;right:0;top:50%;transform:translateY(-50%);
+  transition:height 0.3s;
+  background:var(--o);
+}
+
+/* Pain Panel (right side) */
+.pain-panels{position:relative;min-height:340px}
+.pain-panel{
+  position:absolute;inset:0;
+  opacity:0;pointer-events:none;
+  transition:opacity 0.4s ease, transform 0.4s ease;
+  transform:translateY(12px);
+}
+.pain-panel.active{
+  opacity:1;pointer-events:auto;
+  position:relative;
+  transform:translateY(0);
+}
+.pain-panel-inner{
+  background:var(--bg3);
+  border:1px solid var(--border2);
+  border-radius:24px;
+  overflow:hidden;
+  height:100%;
+}
+.pain-panel-header{
+  padding:28px 32px 20px;
+  border-bottom:1px solid var(--border);
+}
+.pain-panel-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:10px;letter-spacing:2px;text-transform:uppercase;font-weight:700;
+  margin-bottom:12px;padding:4px 12px;border-radius:100px;
+}
+.pain-panel-1 .pain-panel-tag{color:var(--o);background:rgba(241,127,63,0.1);border:1px solid rgba(241,127,63,0.2)}
+.pain-panel-2 .pain-panel-tag{color:var(--blue);background:rgba(96,165,250,0.1);border:1px solid rgba(96,165,250,0.2)}
+.pain-panel-3 .pain-panel-tag{color:var(--purple);background:rgba(167,139,250,0.1);border:1px solid rgba(167,139,250,0.2)}
+.pain-panel-header h3{
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;letter-spacing:-0.4px;margin-bottom:10px;
+}
+.pain-panel-header p{font-size:14px;color:var(--cream2);line-height:1.72}
+.pain-panel-body{padding:24px 32px 28px}
+.pain-stat-row{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;
+}
+.pain-stat{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:14px;padding:16px;text-align:center;
+}
+.pain-stat-num{
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:26px;font-weight:800;letter-spacing:-1px;
+}
+.pain-panel-1 .pain-stat-num{color:var(--o)}
+.pain-panel-2 .pain-stat-num{color:var(--blue)}
+.pain-panel-3 .pain-stat-num{color:var(--purple)}
+.pain-stat-label{font-size:11px;color:var(--muted);margin-top:3px}
+.pain-quote-block{
+  border-radius:14px;padding:18px 20px;
   position:relative;
 }
-.pain-quote::before{content:'"';position:absolute;top:-8px;left:12px;font-size:32px;color:var(--o);opacity:0.3;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800}
+.pain-panel-1 .pain-quote-block{background:rgba(241,127,63,0.06);border:1px solid rgba(241,127,63,0.15);border-left:3px solid var(--o)}
+.pain-panel-2 .pain-quote-block{background:rgba(96,165,250,0.06);border:1px solid rgba(96,165,250,0.15);border-left:3px solid var(--blue)}
+.pain-panel-3 .pain-quote-block{background:rgba(167,139,250,0.06);border:1px solid rgba(167,139,250,0.15);border-left:3px solid var(--purple)}
+.pain-quote-text{font-size:14px;color:var(--cream);line-height:1.7;font-style:italic}
+.pain-quote-author{font-size:11px;color:var(--muted);margin-top:8px;font-style:normal}
+
+/* Mobile pain (stacked cards) */
+.pain-mobile{display:none}
+.pain-card-mobile{
+  background:var(--bg3);border:1px solid var(--border);border-radius:20px;padding:24px;
+  margin-bottom:12px;
+}
+.pain-card-mobile-header{display:flex;align-items:center;gap:12px;margin-bottom:14px}
+.pain-card-mobile-icon{
+  width:44px;height:44px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;
+}
+.pain-card-mobile:nth-child(1) .pain-card-mobile-icon{background:rgba(241,127,63,0.12);border:1px solid rgba(241,127,63,0.25)}
+.pain-card-mobile:nth-child(2) .pain-card-mobile-icon{background:rgba(96,165,250,0.12);border:1px solid rgba(96,165,250,0.25)}
+.pain-card-mobile:nth-child(3) .pain-card-mobile-icon{background:rgba(167,139,250,0.12);border:1px solid rgba(167,139,250,0.25)}
+.pain-card-mobile h3{font-family:'Plus Jakarta Sans',sans-serif;font-size:17px;font-weight:800}
+.pain-card-mobile p{font-size:14px;color:var(--cream2);line-height:1.7;margin-bottom:14px}
+.pain-card-mobile-quote{
+  font-size:13px;color:var(--cream2);font-style:italic;
+  padding:12px 14px;border-radius:10px;
+  background:rgba(255,255,255,0.03);
+}
+.pain-card-mobile:nth-child(1) .pain-card-mobile-quote{border-left:2px solid var(--o)}
+.pain-card-mobile:nth-child(2) .pain-card-mobile-quote{border-left:2px solid var(--blue)}
+.pain-card-mobile:nth-child(3) .pain-card-mobile-quote{border-left:2px solid var(--purple)}
 
 /* ════ SOLUTION ════ */
 .solution-section{background:var(--bg2);padding:64px 60px}
-.solution-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:center;margin-top:48px}
+.solution-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;margin-top:40px}
 .steps{display:flex;flex-direction:column}
-.step-row{display:flex;gap:18px;padding:22px 0;border-bottom:1px solid var(--border)}
+.step-row{display:flex;gap:18px;padding:20px 0;border-bottom:1px solid var(--border)}
 .step-row:last-child{border-bottom:none}
 .step-num{width:36px;height:36px;flex-shrink:0;border-radius:10px;background:var(--bg3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;color:var(--muted);transition:all 0.3s;margin-top:2px}
 .step-row:hover .step-num{background:var(--o);color:#080808;border-color:var(--o)}
@@ -293,15 +383,30 @@ nav.scrolled{background:rgba(8,8,8,0.94);backdrop-filter:blur(20px);border-botto
 
 /* TEAM */
 .team-section{background:var(--bg);padding:64px 60px}
-.team-intro{text-align:center;margin-bottom:48px}
+.team-intro{text-align:center;margin-bottom:40px}
 .team-intro .s-sub{margin:0 auto}
 .carousel-wrap{position:relative;max-width:900px;margin:0 auto;overflow:hidden}
-.carousel-track{display:flex;gap:24px;transition:transform 0.5s cubic-bezier(0.4,0,0.2,1)}
-.char-card{flex:0 0 calc(50% - 12px);background:var(--bg3);border:1px solid var(--border);border-radius:24px;overflow:hidden;transition:all 0.3s}
+.carousel-track{display:flex;gap:20px;transition:transform 0.5s cubic-bezier(0.4,0,0.2,1)}
+.char-card{flex:0 0 calc(50% - 10px);background:var(--bg3);border:1px solid var(--border);border-radius:24px;overflow:hidden;transition:all 0.3s}
 .char-card:hover{border-color:rgba(241,127,63,0.3);transform:translateY(-4px)}
-.char-card-img{width:100%;height:320px;display:flex;align-items:flex-end;justify-content:center;background:linear-gradient(180deg,var(--bg4) 0%,var(--bg3) 100%);position:relative;overflow:hidden}
-.char-card-img img{height:290px;width:auto;object-fit:contain;filter:drop-shadow(0 10px 30px rgba(241,127,63,0.2));transition:transform 0.4s}
-.char-card:hover .char-card-img img{transform:scale(1.04) translateY(-4px)}
+.char-card-img{width:100%;height:280px;display:flex;align-items:center;justify-content:center;background:linear-gradient(180deg,var(--bg4) 0%,var(--bg3) 100%);position:relative;overflow:hidden}
+
+/* Char card placeholder */
+.char-card-placeholder{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+  opacity:0.5;
+}
+.char-card-placeholder-circle{
+  width:72px;height:72px;border-radius:50%;
+  border:2px dashed rgba(241,127,63,0.4);
+  display:flex;align-items:center;justify-content:center;
+  font-size:30px;color:rgba(241,127,63,0.4);
+}
+.char-card-placeholder-text{
+  font-size:11px;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--cream2);font-weight:600;
+}
+
 .char-glow{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:180px;height:80px;background:radial-gradient(ellipse,rgba(241,127,63,0.15),transparent 70%)}
 .coming-soon-overlay{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(8,8,8,0.5)}
 .coming-soon-overlay span{font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;color:var(--o);letter-spacing:1px;text-transform:uppercase;background:var(--o2);border:1px solid rgba(241,127,63,0.3);padding:6px 16px;border-radius:100px}
@@ -309,7 +414,7 @@ nav.scrolled{background:rgba(8,8,8,0.94);backdrop-filter:blur(20px);border-botto
 .char-card-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;letter-spacing:-0.5px;margin-bottom:4px}
 .char-card-traits{font-size:13px;color:var(--o);font-weight:500;margin-bottom:10px}
 .char-card-desc{font-size:13px;color:var(--cream2);line-height:1.6}
-.carousel-controls{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:28px}
+.carousel-controls{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:24px}
 .car-btn{width:40px;height:40px;border-radius:50%;background:var(--bg3);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;cursor:none;transition:all 0.2s;color:var(--cream2);font-size:18px}
 .car-btn:hover{background:var(--o);border-color:var(--o);color:#080808}
 .car-dots{display:flex;gap:8px}
@@ -318,7 +423,7 @@ nav.scrolled{background:rgba(8,8,8,0.94);backdrop-filter:blur(20px);border-botto
 
 /* FEATURES */
 .features-section{background:var(--bg2);padding:64px 60px}
-.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:44px}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:40px}
 .feat-card{background:var(--bg);border:1px solid var(--border);border-radius:var(--radius);padding:26px;transition:all 0.3s;position:relative;overflow:hidden}
 .feat-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,var(--o2),transparent);opacity:0;transition:opacity 0.3s}
 .feat-card:hover{border-color:rgba(241,127,63,0.25);transform:translateY(-3px)}
@@ -330,7 +435,7 @@ nav.scrolled{background:rgba(8,8,8,0.94);backdrop-filter:blur(20px);border-botto
 
 /* TESTIMONIALS */
 .testi-section{background:var(--bg);padding:64px 60px}
-.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:44px}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:40px}
 .testi-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--radius);padding:26px;transition:all 0.3s}
 .testi-card:hover{border-color:rgba(241,127,63,0.2);transform:translateY(-3px)}
 .stars{display:flex;gap:2px;margin-bottom:12px}
@@ -377,43 +482,56 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:32px 60px
 /* ════ RESPONSIVE ════ */
 @media(max-width:1100px){
   .hero-left{padding:110px 32px 50px 40px}
-  .stat-bar-item{padding:24px 24px}
-  .stat-bar-num{font-size:28px}
+  .pain-interactive{grid-template-columns:280px 1fr}
 }
 @media(max-width:900px){
   nav{padding:16px 20px}
   nav.scrolled{padding:12px 20px}
   .nav-links{display:none}
   .nav-hamburger{display:flex}
-  .hero{grid-template-columns:1fr;grid-template-rows:auto auto auto}
-  .hero-left{grid-column:1;grid-row:1;padding:80px 20px 24px;text-align:center}
+
+  /* Hero mobile: left on top, right below, no gap */
+  .hero{
+    grid-template-columns:1fr;
+    grid-template-rows:auto auto;
+    min-height:auto;
+  }
+  .hero-left{
+    grid-column:1;grid-row:1;
+    padding:90px 20px 20px;
+    text-align:center;
+  }
   .hero-left .hero-badge{margin:0 auto 22px}
   .hero-left .hero-sub{margin:0 auto 28px}
   .hero-actions{justify-content:center}
-  .hero-right{grid-column:1;grid-row:2;height:480px}
-  .char-slide-img{height:clamp(340px,65vw,440px)}
-  .stats-bar{grid-column:1;grid-row:3;grid-template-columns:1fr 1fr}
-  .stat-bar-item:nth-child(2){border-right:none}
-  .stat-bar-item:nth-child(3){border-top:1px solid var(--border)}
-  .stat-bar-item:nth-child(4){border-top:1px solid var(--border);border-right:none}
-  .pain-section,.solution-section,.team-section,.features-section,.testi-section{padding:52px 20px}
-  .cta-section{padding:52px 20px}
+  .hero-right{
+    grid-column:1;grid-row:2;
+    height:480px;
+    padding-bottom:44px;
+  }
+  .char-slide{bottom:52px}
+
+  /* Pain: hide desktop interactive, show mobile cards */
+  .pain-interactive{display:none}
+  .pain-mobile{display:block}
+
+  .pain-section,.solution-section,.team-section,.features-section,.testi-section{padding:48px 20px}
+  .cta-section{padding:48px 20px}
   footer{padding:24px 20px;flex-direction:column;text-align:center}
   .footer-links{justify-content:center}
-  .pain-grid{grid-template-columns:1fr}
-  .solution-grid{grid-template-columns:1fr;gap:32px}
+  .solution-grid{grid-template-columns:1fr;gap:28px}
   .char-card{flex:0 0 82vw}
   .feat-grid{grid-template-columns:1fr 1fr}
   .testi-grid{grid-template-columns:1fr}
   .form-row{flex-direction:column}
   .btn-primary,.btn-ghost{cursor:pointer}
+  .demo-btn{cursor:pointer}
+  .car-btn{cursor:pointer}
 }
 @media(max-width:480px){
   .hero h1{font-size:32px}
   .feat-grid{grid-template-columns:1fr}
-  .stats-bar{grid-template-columns:1fr 1fr}
-  .stat-bar-num{font-size:24px}
-  .stat-bar-item{padding:18px 16px}
+  .pain-section{padding:44px 16px}
 }
 </style>
 </head>
@@ -449,6 +567,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:32px 60px
   <div class="hero-bg-glow"></div>
   <div class="grid-lines"></div>
 
+  <!-- Left: Headline + CTA -->
   <div class="hero-left">
     <div class="hero-badge"><span class="badge-live"></span>Jetzt in der Beta</div>
     <h1>Marketing das<br><span class="h1-accent">endlich für dich</span><br>arbeitet</h1>
@@ -459,12 +578,15 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:32px 60px
     </div>
   </div>
 
+  <!-- Right: Character Slideshow -->
   <div class="hero-right">
-    <div class="char-dots" id="charDots"></div>
-
+    <!-- ANA -->
     <div class="char-slide active" data-idx="0">
       <div class="char-slide-glow"></div>
-      <img class="char-slide-img" src="data:
+      <div class="char-slide-placeholder">
+        <div class="char-slide-placeholder-icon">👤</div>
+        <div class="char-slide-placeholder-label">Bild folgt</div>
+      </div>
       <div class="char-slide-info">
         <div class="char-slide-name">Ana</div>
         <div class="char-slide-quote">"Guten Morgen! Ein Move – maximaler Impact."</div>
@@ -476,10 +598,12 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:32px 60px
       </div>
     </div>
 
+    <!-- TOM -->
     <div class="char-slide" data-idx="1">
       <div class="char-slide-glow"></div>
-      <div style="height:clamp(420px,62vh,680px);display:flex;align-items:center;justify-content:center;width:100%">
-        <div style="text-align:center;opacity:0.35"><div style="font-size:52px;margin-bottom:12px">👤</div><div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;color:var(--cream2)">Coming Soon</div></div>
+      <div class="char-slide-placeholder">
+        <div class="char-slide-placeholder-icon">👤</div>
+        <div class="char-slide-placeholder-label">Bild folgt</div>
       </div>
       <div class="char-slide-info">
         <div class="char-slide-name">Tom</div>
@@ -488,10 +612,12 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:32px 60px
       </div>
     </div>
 
+    <!-- SARA -->
     <div class="char-slide" data-idx="2">
       <div class="char-slide-glow"></div>
-      <div style="height:clamp(420px,62vh,680px);display:flex;align-items:center;justify-content:center;width:100%">
-        <div style="text-align:center;opacity:0.35"><div style="font-size:52px;margin-bottom:12px">👤</div><div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;color:var(--cream2)">Coming Soon</div></div>
+      <div class="char-slide-placeholder">
+        <div class="char-slide-placeholder-icon">👤</div>
+        <div class="char-slide-placeholder-label">Bild folgt</div>
       </div>
       <div class="char-slide-info">
         <div class="char-slide-name">Sara</div>
@@ -500,10 +626,12 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:32px 60px
       </div>
     </div>
 
+    <!-- ROMEO -->
     <div class="char-slide" data-idx="3">
       <div class="char-slide-glow"></div>
-      <div style="height:clamp(420px,62vh,680px);display:flex;align-items:center;justify-content:center;width:100%">
-        <div style="text-align:center;opacity:0.35"><div style="font-size:52px;margin-bottom:12px">👤</div><div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:700;color:var(--cream2)">Coming Soon</div></div>
+      <div class="char-slide-placeholder">
+        <div class="char-slide-placeholder-icon">👤</div>
+        <div class="char-slide-placeholder-label">Bild folgt</div>
       </div>
       <div class="char-slide-info">
         <div class="char-slide-name">Romeo</div>
@@ -511,30 +639,11 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:32px 60px
         <div class="char-slide-traits"><span class="trait-badge">Ruhig</span><span class="trait-badge">Analytisch</span><span class="trait-badge">Verlässlich</span></div>
       </div>
     </div>
+
+    <!-- Dots: centered below characters -->
+    <div class="char-dots" id="charDots"></div>
   </div>
 
-  <div class="stats-bar">
-    <div class="stat-bar-item">
-      <div class="stat-bar-tag">Täglich</div>
-      <div class="stat-bar-num">90s</div>
-      <div class="stat-bar-label">Morning Briefing – kein Chaos</div>
-    </div>
-    <div class="stat-bar-item">
-      <div class="stat-bar-tag">Fokus</div>
-      <div class="stat-bar-num">1 Move</div>
-      <div class="stat-bar-label">Klar priorisiert, sofort umsetzbar</div>
-    </div>
-    <div class="stat-bar-item">
-      <div class="stat-bar-tag">Durchschnitt</div>
-      <div class="stat-bar-num">€500</div>
-      <div class="stat-bar-label">Budget gerettet pro Woche</div>
-    </div>
-    <div class="stat-bar-item">
-      <div class="stat-bar-tag">Immer aktiv</div>
-      <div class="stat-bar-num">24/7</div>
-      <div class="stat-bar-label">Überwacht deine Kampagnen</div>
-    </div>
-  </div>
 </section>
 
 <!-- ══ PAIN POINTS ══ -->
@@ -545,24 +654,154 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:32px 60px
       <h2 class="s-title">Marketing fühlt sich an<br>wie ein Vollzeitjob im Chaos.</h2>
       <p class="s-sub">Und das obwohl du die Strategie drauf hast. Das Problem ist nicht du – es ist das System.</p>
     </div>
-    <div class="pain-grid">
-      <div class="pain-card reveal">
-        <div class="pain-card-icon">🔥</div>
-        <h3>Zu viele Tools, zu wenig Überblick</h3>
-        <p>10 Tabs, 50 Metriken, hunderte Micro-Entscheidungen täglich. Du verbringst mehr Zeit mit Monitoring als mit dem was wirklich zählt: Strategie.</p>
-        <div class="pain-quote">Ich checke jeden Morgen 6 Tools bevor ich überhaupt Kaffee trinke.</div>
+
+    <!-- Desktop: interactive tabs + panel -->
+    <div class="pain-interactive reveal">
+      <div class="pain-tabs">
+        <div class="pain-tab active" onclick="switchPain(0)">
+          <div class="pain-tab-icon">🔥</div>
+          <div>
+            <div class="pain-tab-label">Tool-Chaos</div>
+            <div class="pain-tab-hint">10 Tabs, 50 Metriken, null Überblick</div>
+          </div>
+        </div>
+        <div class="pain-tab" onclick="switchPain(1)">
+          <div class="pain-tab-icon">💸</div>
+          <div>
+            <div class="pain-tab-label">Budget brennt</div>
+            <div class="pain-tab-hint">Du siehst es – aber zu spät</div>
+          </div>
+        </div>
+        <div class="pain-tab" onclick="switchPain(2)">
+          <div class="pain-tab-icon">⏳</div>
+          <div>
+            <div class="pain-tab-label">Reaktiv statt strategisch</div>
+            <div class="pain-tab-hint">Reports fressen deine Woche</div>
+          </div>
+        </div>
       </div>
-      <div class="pain-card reveal rd1">
-        <div class="pain-card-icon">💸</div>
-        <h3>Budget verbrennt – du siehst es zu spät</h3>
-        <p>Irgendwo läuft eine Kampagne ins Leere. Irgendwo bricht ein Funnel ein. Du weißt es – aber bis du es findest, ist das Geld weg.</p>
-        <div class="pain-quote">Bis ich das Problem sehe, ist das Budget schon weg.</div>
+
+      <div class="pain-panels">
+        <!-- Panel 1 -->
+        <div class="pain-panel pain-panel-1 active">
+          <div class="pain-panel-inner">
+            <div class="pain-panel-header">
+              <div class="pain-panel-tag">🔥 Das größte Problem</div>
+              <h3>Zu viele Tools, zu wenig Überblick</h3>
+              <p>10 Tabs, 50 Metriken, hunderte Micro-Entscheidungen täglich. Du verbringst mehr Zeit mit Monitoring als mit dem was wirklich zählt: Strategie.</p>
+            </div>
+            <div class="pain-panel-body">
+              <div class="pain-stat-row">
+                <div class="pain-stat">
+                  <div class="pain-stat-num">10+</div>
+                  <div class="pain-stat-label">Tools täglich</div>
+                </div>
+                <div class="pain-stat">
+                  <div class="pain-stat-num">3h</div>
+                  <div class="pain-stat-label">Monitoring/Tag</div>
+                </div>
+                <div class="pain-stat">
+                  <div class="pain-stat-num">0</div>
+                  <div class="pain-stat-label">Strategiezeit</div>
+                </div>
+              </div>
+              <div class="pain-quote-block">
+                <div class="pain-quote-text">"Ich checke jeden Morgen 6 Tools bevor ich überhaupt Kaffee trinke."</div>
+                <div class="pain-quote-author">— Marketing Manager, B2B SaaS</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 2 -->
+        <div class="pain-panel pain-panel-2">
+          <div class="pain-panel-inner">
+            <div class="pain-panel-header">
+              <div class="pain-panel-tag">💸 Stille Kosten</div>
+              <h3>Budget verbrennt – du siehst es zu spät</h3>
+              <p>Irgendwo läuft eine Kampagne ins Leere. Irgendwo bricht ein Funnel ein. Du weißt es – aber bis du es findest, ist das Geld weg.</p>
+            </div>
+            <div class="pain-panel-body">
+              <div class="pain-stat-row">
+                <div class="pain-stat">
+                  <div class="pain-stat-num">€500</div>
+                  <div class="pain-stat-label">Ø Verlust/Woche</div>
+                </div>
+                <div class="pain-stat">
+                  <div class="pain-stat-num">4 Tage</div>
+                  <div class="pain-stat-label">Ø Reaktionszeit</div>
+                </div>
+                <div class="pain-stat">
+                  <div class="pain-stat-num">80%</div>
+                  <div class="pain-stat-label">Prävention möglich</div>
+                </div>
+              </div>
+              <div class="pain-quote-block">
+                <div class="pain-quote-text">"Bis ich das Problem sehe, ist das Budget schon weg."</div>
+                <div class="pain-quote-author">— Freelance Ads Specialist</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Panel 3 -->
+        <div class="pain-panel pain-panel-3">
+          <div class="pain-panel-inner">
+            <div class="pain-panel-header">
+              <div class="pain-panel-tag">⏳ Zeitfresser</div>
+              <h3>Reaktiv statt strategisch</h3>
+              <p>Du wurdest eingestellt um zu denken – nicht um Reports zu kopieren. Aber manuelle Analysen und Ad-Checks fressen deine Woche auf.</p>
+            </div>
+            <div class="pain-panel-body">
+              <div class="pain-stat-row">
+                <div class="pain-stat">
+                  <div class="pain-stat-num">60%</div>
+                  <div class="pain-stat-label">Zeit für Reports</div>
+                </div>
+                <div class="pain-stat">
+                  <div class="pain-stat-num">2h</div>
+                  <div class="pain-stat-label">Manueller Audit/Tag</div>
+                </div>
+                <div class="pain-stat">
+                  <div class="pain-stat-num">0%</div>
+                  <div class="pain-stat-label">Strategiearbeit</div>
+                </div>
+              </div>
+              <div class="pain-quote-block">
+                <div class="pain-quote-text">"Strategy time? Gibt's bei mir nicht mehr."</div>
+                <div class="pain-quote-author">— Head of Growth, E-Commerce</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="pain-card reveal rd2">
-        <div class="pain-card-icon">⏳</div>
-        <h3>Reaktiv statt strategisch</h3>
-        <p>Du wurdest eingestellt um zu denken – nicht um Reports zu kopieren. Aber manuelle Analysen und Ad-Checks fressen deine Woche auf.</p>
-        <div class="pain-quote">Strategy time? Gibt's bei mir nicht mehr.</div>
+    </div>
+
+    <!-- Mobile: stacked cards -->
+    <div class="pain-mobile">
+      <div class="pain-card-mobile reveal">
+        <div class="pain-card-mobile-header">
+          <div class="pain-card-mobile-icon">🔥</div>
+          <h3>Tool-Chaos</h3>
+        </div>
+        <p>10 Tabs, 50 Metriken, hunderte Micro-Entscheidungen täglich. Mehr Zeit mit Monitoring als mit Strategie.</p>
+        <div class="pain-card-mobile-quote">"Ich checke jeden Morgen 6 Tools bevor ich Kaffee trinke."</div>
+      </div>
+      <div class="pain-card-mobile reveal rd1">
+        <div class="pain-card-mobile-header">
+          <div class="pain-card-mobile-icon">💸</div>
+          <h3>Budget brennt</h3>
+        </div>
+        <p>Irgendwo läuft eine Kampagne ins Leere. Bis du es findest, ist das Geld weg.</p>
+        <div class="pain-card-mobile-quote">"Bis ich das Problem sehe, ist das Budget schon weg."</div>
+      </div>
+      <div class="pain-card-mobile reveal rd2">
+        <div class="pain-card-mobile-header">
+          <div class="pain-card-mobile-icon">⏳</div>
+          <h3>Reaktiv statt strategisch</h3>
+        </div>
+        <p>Manuelle Analysen und Ad-Checks fressen deine Woche auf. Strategiezeit: Null.</p>
+        <div class="pain-card-mobile-quote">"Strategy time? Gibt's bei mir nicht mehr."</div>
       </div>
     </div>
   </div>
@@ -642,8 +881,11 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:32px 60px
         <div class="char-card">
           <div class="char-card-img">
             <div class="char-glow"></div>
-            <div class="coming-soon-overlay"><span>Coming Soon</span></div>
-           </div>
+            <div class="char-card-placeholder">
+              <div class="char-card-placeholder-circle">👤</div>
+              <div class="char-card-placeholder-text">Bild folgt</div>
+            </div>
+          </div>
           <div class="char-card-body">
             <div class="char-card-name">Ana</div>
             <div class="char-card-traits">Kommunikativ · Lustig · Strategisch</div>
@@ -651,10 +893,14 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:32px 60px
           </div>
         </div>
 
-        <!-- TOM – Coming Soon -->
+        <!-- TOM -->
         <div class="char-card">
           <div class="char-card-img">
             <div class="char-glow"></div>
+            <div class="char-card-placeholder">
+              <div class="char-card-placeholder-circle">👤</div>
+              <div class="char-card-placeholder-text">Bild folgt</div>
+            </div>
             <div class="coming-soon-overlay"><span>Coming Soon</span></div>
           </div>
           <div class="char-card-body">
@@ -664,10 +910,14 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:32px 60px
           </div>
         </div>
 
-        <!-- SARA – Coming Soon -->
+        <!-- SARA -->
         <div class="char-card">
           <div class="char-card-img">
             <div class="char-glow"></div>
+            <div class="char-card-placeholder">
+              <div class="char-card-placeholder-circle">👤</div>
+              <div class="char-card-placeholder-text">Bild folgt</div>
+            </div>
             <div class="coming-soon-overlay"><span>Coming Soon</span></div>
           </div>
           <div class="char-card-body">
@@ -677,10 +927,14 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:32px 60px
           </div>
         </div>
 
-        <!-- ROMEO – Coming Soon -->
+        <!-- ROMEO -->
         <div class="char-card">
           <div class="char-card-img">
             <div class="char-glow"></div>
+            <div class="char-card-placeholder">
+              <div class="char-card-placeholder-circle">👤</div>
+              <div class="char-card-placeholder-text">Bild folgt</div>
+            </div>
             <div class="coming-soon-overlay"><span>Coming Soon</span></div>
           </div>
           <div class="char-card-body">
@@ -815,7 +1069,7 @@ if(cur && ring){
   let mx=0,my=0,rx=0,ry=0;
   document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
   (function animRing(){rx+=(mx-rx)*0.13;ry+=(my-ry)*0.13;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)})();
-  document.querySelectorAll('a,button,.feat-card,.pain-card,.testi-card,.char-card,.car-btn,.char-dot,.stat-bar-item').forEach(el=>{
+  document.querySelectorAll('a,button,.feat-card,.pain-card-mobile,.testi-card,.char-card,.car-btn,.char-dot,.pain-tab,.demo-btn').forEach(el=>{
     el.addEventListener('mouseenter',()=>{ring.style.transform='translate(-50%,-50%) scale(2)';ring.style.borderColor='rgba(241,127,63,0.7)'});
     el.addEventListener('mouseleave',()=>{ring.style.transform='translate(-50%,-50%) scale(1)';ring.style.borderColor='rgba(241,127,63,0.4)'});
   });
@@ -841,6 +1095,7 @@ let slideInterval = null;
 slides.forEach((_, i) => {
   const d = document.createElement('button');
   d.className = 'char-dot' + (i===0?' active':'');
+  d.style.cssText = 'cursor:pointer';
   d.addEventListener('click', () => goToSlide(i));
   dotsWrap.appendChild(d);
 });
@@ -859,17 +1114,14 @@ function goToSlide(idx){
 function startAutoplay(){
   slideInterval = setInterval(()=>goToSlide((currentSlide+1)%slides.length), 4000);
 }
-
 startAutoplay();
 
-// Pause on hover
 const heroRight = document.querySelector('.hero-right');
 if(heroRight){
   heroRight.addEventListener('mouseenter',()=>{clearInterval(slideInterval);slideInterval=null});
   heroRight.addEventListener('mouseleave',()=>{if(!slideInterval)startAutoplay()});
 }
 
-// Touch swipe
 let touchStartX=0;
 if(heroRight){
   heroRight.addEventListener('touchstart',e=>touchStartX=e.touches[0].clientX,{passive:true});
@@ -877,6 +1129,18 @@ if(heroRight){
     const diff=touchStartX-e.changedTouches[0].clientX;
     if(Math.abs(diff)>50){clearInterval(slideInterval);slideInterval=null;goToSlide((currentSlide+(diff>0?1:-1)+slides.length)%slides.length);startAutoplay()}
   });
+}
+
+// ── PAIN SECTION INTERACTIVE ──
+function switchPain(idx){
+  document.querySelectorAll('.pain-tab').forEach((t,i)=>t.classList.toggle('active',i===idx));
+  document.querySelectorAll('.pain-panel').forEach((p,i)=>{
+    p.classList.remove('active');
+    p.style.position='absolute';
+  });
+  const active = document.querySelectorAll('.pain-panel')[idx];
+  active.classList.add('active');
+  active.style.position='relative';
 }
 
 // ── TEAM CAROUSEL ──
@@ -893,6 +1157,7 @@ if(track && teamDotsContainer){
       const d=document.createElement('div');
       d.className='car-dot'+(i===0?' active':'');
       d.onclick=()=>goToTeamSlide(i);
+      d.style.cursor='pointer';
       teamDotsContainer.appendChild(d);
     }
   }
@@ -901,7 +1166,7 @@ if(track && teamDotsContainer){
   function goToTeamSlide(idx){
     const total=Math.ceil(cards.length/visibleCards());
     carIdx=Math.max(0,Math.min(idx,total-1));
-    const cardWidth=cards[0].offsetWidth+24;
+    const cardWidth=cards[0].offsetWidth+20;
     track.style.transform=`translateX(-${carIdx*visibleCards()*cardWidth}px)`;
     teamDotsContainer.querySelectorAll('.car-dot').forEach((d,i)=>d.classList.toggle('active',i===carIdx));
   }
