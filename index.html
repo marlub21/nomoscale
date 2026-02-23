@@ -536,7 +536,11 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:32px 60px
 </style>
 </head>
 <body>
-<script>if('scrollRestoration' in history){history.scrollRestoration='manual';}window.scrollTo(0,0);</script>
+<script>
+  if('scrollRestoration' in history){history.scrollRestoration='manual';}
+  if(window.location.hash){history.replaceState(null,null,' ');}
+  window.scrollTo(0,0);
+</script>
 
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
@@ -557,10 +561,10 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:32px 60px
 
 <div class="mobile-menu" id="mobileMenu">
   <button class="mobile-close" onclick="toggleMenu()">✕</button>
-  <a href="#problem" onclick="toggleMenu()">Das Problem</a>
-  <a href="#solution" onclick="toggleMenu()">So läuft's</a>
-  <a href="#team" onclick="toggleMenu()">Team Scale</a>
-  <a href="#waitlist" onclick="toggleMenu()" style="color:var(--o)">Beta-Zugang →</a>
+  <a href="#problem" onclick="toggleMenu();event.preventDefault();document.getElementById('problem').scrollIntoView({behavior:'smooth'})">Das Problem</a>
+  <a href="#solution" onclick="toggleMenu();event.preventDefault();document.getElementById('solution').scrollIntoView({behavior:'smooth'})">So läuft's</a>
+  <a href="#team" onclick="toggleMenu();event.preventDefault();document.getElementById('team').scrollIntoView({behavior:'smooth'})">Team Scale</a>
+  <a href="#waitlist" onclick="toggleMenu();event.preventDefault();document.getElementById('waitlist').scrollIntoView({behavior:'smooth'})" style="color:var(--o)">Beta-Zugang →</a>
 </div>
 
 <!-- ══ HERO ══ -->
