@@ -536,13 +536,14 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:32px 60px
 </style>
 </head>
 <body>
+<script>if('scrollRestoration' in history){history.scrollRestoration='manual';}window.scrollTo(0,0);</script>
 
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
 <!-- NAV -->
 <nav id="nav">
-  <a href="#" class="logo"><span class="logo-dot"></span>NOMOSCALE AI</a>
+  <a href="javascript:void(0)" onclick="window.scrollTo({top:0,behavior:'smooth'})" class="logo"><span class="logo-dot"></span>NOMOSCALE AI</a>
   <ul class="nav-links">
     <li><a href="#problem">Das Problem</a></li>
     <li><a href="#solution">So läuft's</a></li>
